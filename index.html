@@ -14,10 +14,7 @@
     <!-- Sidebar -->
     <aside>
         <div class="logo">
-            <div class="logo-icon">
-                <i class="fas fa-bolt text-white"></i>
-            </div>
-            <span class="logo-text">Provou Levou</span>
+            <img src="logo.png" alt="Provou Levou" class="logo-img">
         </div>
 
         <ul class="nav-menu">
@@ -27,7 +24,6 @@
                     <span>Provou Levou</span>
                 </a>
             </li>
-
         </ul>
 
         <div class="user-profile">
@@ -48,13 +44,7 @@
         <!-- Dashboard View -->
         <section id="dashboard" class="view active">
             <div class="page-header">
-                <h1 class="page-title">Provou Levou</h1>
-                <div class="filter-group">
-                    <button class="filter-btn" onclick="setFilter('hoje', this)">Hoje</button>
-                    <button class="filter-btn" onclick="setFilter('7d', this)">7 Dias</button>
-                    <button class="filter-btn" onclick="setFilter('15d', this)">15 Dias</button>
-                    <button class="filter-btn active" onclick="setFilter('30d', this)">30 Dias</button>
-                </div>
+                <h1 class="page-title">Painel de Clientes Ativos</h1>
             </div>
 
             <!-- KPI Cards -->
@@ -128,7 +118,8 @@
             <div class="section-container glass">
                 <div class="table-header">
                     <h2 class="table-title">Clientes</h2>
-                    <button class="btn-primary" onclick="openRegistrationModal()">
+                    <!-- ID adicionado: btn-novo-cliente -->
+                    <button id="btn-novo-cliente" class="btn-primary">
                         <i class="fas fa-plus"></i> Novo Cliente
                     </button>
                 </div>
@@ -157,11 +148,16 @@
     <div id="registration-modal" class="modal-overlay">
         <div class="modal-content glass-premium" style="max-width: 700px;">
             <div class="modal-header">
-                <h2>Novo Cliente</h2>
-                <button class="close-modal" onclick="closeRegistrationModal()">&times;</button>
+                <h2 id="reg-modal-title">Novo Cliente</h2>
+                <!-- ID adicionado: btn-close-registration -->
+                <button type="button" id="btn-close-registration" class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
                 <form id="client-form">
+                    <input type="hidden" id="client_id">
+                    <div id="form-error-message"
+                        style="display: none; background: #fee2e2; color: #b91c1c; padding: 12px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; border: 1px solid #f87171;">
+                    </div>
                     <div class="form-grid">
                         <div class="form-group">
                             <label for="name">Nome do Responsável</label>
@@ -198,6 +194,10 @@
                                 <option value="Teste Gratuito">Teste Gratuito</option>
                             </select>
                         </div>
+                        <div class="form-group" id="implementation-date-wrapper" style="display: none;">
+                            <label for="implementation_date">Data de Implementação</label>
+                            <input type="date" id="implementation_date" class="form-control">
+                        </div>
                         <div class="form-group" style="grid-column: span 2;">
                             <label for="website">Site (URL de Implementação)</label>
                             <input type="url" id="website" class="form-control"
@@ -205,7 +205,6 @@
                         </div>
                     </div>
                     <div style="margin-top: 24px; display: flex; gap: 16px; justify-content: flex-end;">
-                        <button type="button" class="logout-btn" onclick="closeRegistrationModal()">Cancelar</button>
                         <button type="submit" class="btn-primary"><i class="fas fa-user-plus"></i> Cadastrar</button>
                     </div>
                 </form>
@@ -218,7 +217,8 @@
         <div class="modal-content glass-premium">
             <div class="modal-header">
                 <h2 id="modal-title">Detalhes do Cliente</h2>
-                <button class="close-modal" onclick="closeModal()">&times;</button>
+                <!-- ID adicionado: btn-close-client -->
+                <button id="btn-close-client" class="close-modal">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="detail-grid">
@@ -246,6 +246,10 @@
                         <label>Status</label>
                         <span id="modal-status" class="status-badge">-</span>
                     </div>
+                    <div class="detail-item" id="modal-test-days-wrapper" style="display: none;">
+                        <label>Dias de Teste</label>
+                        <span id="modal-test-days" style="font-weight: 600;">-</span>
+                    </div>
                     <div class="detail-item">
                         <label>Data de Adesão</label>
                         <span id="modal-date">-</span>
@@ -257,11 +261,13 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="logout-btn" onclick="closeModal()">Fechar</button>
+                <!-- ID adicionado: btn-fechar-detalhes -->
+                <button id="btn-fechar-detalhes" class="logout-btn">Fechar</button>
             </div>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 
